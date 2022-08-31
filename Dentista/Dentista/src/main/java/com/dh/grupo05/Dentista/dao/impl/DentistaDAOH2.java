@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Configuration
@@ -71,11 +72,40 @@ public class DentistaDAOH2 implements IDao<Dentista> {
 
     @Override
     public List<Dentista> consultar() throws SQLException {
-        return null;
+        log.debug("Abrindo uma conexão");
+        Connection connection = null;
+        Statement stmt = null;
+        String queryConsulta = "Select * from DENTISTA";
+        List<Dentista>dentistas = new ArrayList<>();
+        try{
+            configuracaoJDBC = new ConfiguracaoJDBC("org.h2.Driver","jdbc:h2:~/consultorio;INIT=RUNSCRIPT FROM 'create.sql'","sa","");
+            connection = configuracaoJDBC.getConnection();
+            stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(queryConsulta);
+            log.debug("Buscando todos os dentistas no banco");
+            while (resultSet.next()){
+                dentistas.add(criarObjetoDentista(resultSet));
+            }
+        } catch (SQLException throwables){
+            throwables.printStackTrace();
+        }finally {
+            log.debug("Fechando conexão no banco");
+            connection.close();
+        }
+        return dentistas;
     }
 
     @Override
     public Optional<Dentista> buscaPorId(int id) throws SQLException {
         return Optional.empty();
     }
+
+    private Dentista criarObjetoDentista(ResultSet resultSet) throws SQLException {
+        Integer id = resultSet.getInt("id");
+        String nomeDentista = resultSet.getString("nome");
+        String sobrenomeDentista = resultSet.getString("sobrenome");
+        String matriculaDentista = resultSet.getString("matricula");
+        return new Dentista(id, nomeDentista, sobrenomeDentista, matriculaDentista);
+    }
+
 }

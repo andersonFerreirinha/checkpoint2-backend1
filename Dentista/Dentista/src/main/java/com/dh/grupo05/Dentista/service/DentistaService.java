@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class DentistaService  {
@@ -16,4 +17,9 @@ public class DentistaService  {
     public Dentista salvar(Dentista dentista) throws SQLException {
         return dentistaDAOH2.salvar(dentista);
     }
+
+    public List<Dentista> buscarTodosDentistas() throws SQLException{
+        return dentistaDAOH2.consultar();
+    }
+
 }
