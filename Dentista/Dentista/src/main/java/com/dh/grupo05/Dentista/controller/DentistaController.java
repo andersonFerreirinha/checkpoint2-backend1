@@ -26,6 +26,16 @@ public class DentistaController {
         return service.buscarTodosDentistas();
     }
 
+    @RequestMapping(value = "/buscaId")
+    public Dentista buscaPorId(@RequestParam("id") int id) throws SQLException{
+        return service.buscaPorId(id).isEmpty() ? new Dentista() : service.buscaPorId(id).get();
+    }
+
+    @PatchMapping
+    public void modificar(@RequestBody Dentista dentista) throws SQLException{
+        service.modificar(dentista);
+    }
+
 
 
 }

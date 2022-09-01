@@ -20,7 +20,7 @@ public class Pacientes {
 
     private String sobrenome;
 
-    private Endereco endereco;
+    private int idEndereco;
 
     private String rg;
 

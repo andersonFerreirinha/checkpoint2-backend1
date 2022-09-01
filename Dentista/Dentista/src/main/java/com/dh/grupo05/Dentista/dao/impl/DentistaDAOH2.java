@@ -56,10 +56,9 @@ public class DentistaDAOH2 implements IDao<Dentista> {
             configuracaoJDBC = new ConfiguracaoJDBC("org.h2.Driver","jdbc:h2:~/consultorio;INIT=RUNSCRIPT FROM 'create.sql'","sa","");
             connection = configuracaoJDBC.getConnection();
             Statement statement = connection.createStatement();
-            statement.execute(modificarDado, Statement.RETURN_GENERATED_KEYS);
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next())
-                dentista.setId(resultSet.getInt(1));
+            statement.execute(modificarDado);
+
+
         }catch (Exception e){
             log.error("Erro ao modificar dentista: "+ e.getMessage());
             e.printStackTrace();
@@ -72,7 +71,7 @@ public class DentistaDAOH2 implements IDao<Dentista> {
 
     @Override
     public List<Dentista> consultar() throws SQLException {
-        log.debug("Abrindo uma conexão");
+        log.info("Abrindo uma conexão");
         Connection connection = null;
         Statement stmt = null;
         String queryConsulta = "Select * from DENTISTA";
@@ -82,14 +81,14 @@ public class DentistaDAOH2 implements IDao<Dentista> {
             connection = configuracaoJDBC.getConnection();
             stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery(queryConsulta);
-            log.debug("Buscando todos os dentistas no banco");
+            log.info("Buscando todos os dentistas no banco");
             while (resultSet.next()){
                 dentistas.add(criarObjetoDentista(resultSet));
             }
         } catch (SQLException throwables){
             throwables.printStackTrace();
         }finally {
-            log.debug("Fechando conexão no banco");
+            log.info("Fechando conexão no banco");
             connection.close();
         }
         return dentistas;
@@ -97,7 +96,28 @@ public class DentistaDAOH2 implements IDao<Dentista> {
 
     @Override
     public Optional<Dentista> buscaPorId(int id) throws SQLException {
-        return Optional.empty();
+        log.info("Abrir conexão");
+        Connection connection = null;
+        Statement stmt = null;
+        String query = String.format("SELECT * FROM Dentista WHERE ID = %s", id);
+        Dentista dentista = null;
+        try{
+            configuracaoJDBC= new ConfiguracaoJDBC("org.h2.Driver","jdbc:h2:~/consultorio;INIT=RUNSCRIPT FROM 'create.sql'","sa","");
+            connection = configuracaoJDBC.getConnection();
+            log.info("Buscando dentista com id: " + id);
+            stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()){
+                dentista = criarObjetoDentista(resultSet);
+            }
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+        }finally {
+            log.info("Fechando a conexão do banco");
+            connection.close();
+        }
+
+        return dentista != null ? Optional.of(dentista) : Optional.empty();
     }
 
     private Dentista criarObjetoDentista(ResultSet resultSet) throws SQLException {
