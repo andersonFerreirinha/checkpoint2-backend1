@@ -1,4 +1,4 @@
-package com.dh.grupo05.Dentista.dao.impl;
+/*package com.dh.grupo05.Dentista.dao.impl;
 
 import com.dh.grupo05.Dentista.dao.ConfiguracaoJDBC;
 import com.dh.grupo05.Dentista.dao.IDao;
@@ -60,3 +60,4 @@ public class EnderecoDAOH2 implements IDao<Endereco> {
         return Optional.empty();
     }
 }
+*/
