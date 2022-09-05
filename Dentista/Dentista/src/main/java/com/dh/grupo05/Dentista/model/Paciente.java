@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Pacientes {
+public class Paciente {
 
     private int Id;
 
@@ -24,5 +25,5 @@ public class Pacientes {
 
     private String rg;
 
-    private LocalDate dataCadastro;
+    private Date dataCadastro;
 }
