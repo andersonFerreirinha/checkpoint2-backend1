@@ -1,0 +1,7 @@
+com\dh\grupo05\Dentista\repository\DentistaRepository.class
+com\dh\grupo05\Dentista\controller\DentistaController.class
+com\dh\grupo05\Dentista\service\DentistaService.class
+com\dh\grupo05\Dentista\model\Paciente.class
+com\dh\grupo05\Dentista\DentistaApplication.class
+com\dh\grupo05\Dentista\model\Dentista.class
+com\dh\grupo05\Dentista\model\Endereco.class
