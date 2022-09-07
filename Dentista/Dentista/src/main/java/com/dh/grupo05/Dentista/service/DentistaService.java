@@ -1,11 +1,10 @@
 package com.dh.grupo05.Dentista.service;
 
-import com.dh.grupo05.Dentista.dao.IDao;
 import com.dh.grupo05.Dentista.model.Dentista;
+import com.dh.grupo05.Dentista.repository.DentistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,22 +12,22 @@ import java.util.Optional;
 public class DentistaService  {
 
     @Autowired
-    IDao<Dentista> dentistaDAOH2;
+    DentistaRepository repository;
 
-    public Dentista salvar(Dentista dentista) throws SQLException {
-        return dentistaDAOH2.salvar(dentista);
+    public Dentista salvar(Dentista dentista) {
+        return repository.save(dentista);
     }
 
-    public List<Dentista> buscarTodosDentistas() throws SQLException{
-        return dentistaDAOH2.consultar();
+    public List<Dentista> buscarTodosDentistas() {
+        return repository.findAll();
     }
 
-    public Optional<Dentista> buscaPorId(int id) throws SQLException{
-        return dentistaDAOH2.buscaPorId(id);
+    public Optional<Dentista> buscaPorId(Long id) {
+        return repository.findById(id);
     }
 
-    public void modificar(Dentista dentista) throws SQLException{
-        dentistaDAOH2.modificar(dentista);
+    public void modificar(Dentista dentista) {
+        repository.saveAndFlush(dentista);
     }
 
 }
