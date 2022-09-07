@@ -1,6 +1,6 @@
-package com.dh.grupo05.Dentista.repository;
+package com.dh.grupo05.clinica.repository;
 
-import com.dh.grupo05.Dentista.model.Consulta;
+import com.dh.grupo05.clinica.model.Consulta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
